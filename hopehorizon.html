@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hope Horizon AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f0f4f8;
+            --text-color: #333;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 90%;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3a7bc8;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 8px;
+            display: none;
+        }
+
+        #result h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        #activities {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        #activities li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        #activities li::before {
+            content: '•';
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -0.2rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hope Horizon AI</h1>
+        <div class="input-group">
+            <label for="mood">How are you feeling today?</label>
+            <select id="mood">
+                <option value="">Select your mood</option>
+                <option value="happy">Happy</option>
+                <option value="sad">Sad</option>
+                <option value="anxious">Anxious</option>
+                <option value="angry">Angry</option>
+                <option value="lonely">Lonely</option>
+                <option value="stressed">Stressed</option>
+                <option value="excited">Excited</option>
+                <option value="confused">Confused</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="situation">Describe your situation:</label>
+            <textarea id="situation" rows="3" placeholder="E.g., I'm alone on a road and observing suspicious activity"></textarea>
+        </div>
+        <button onclick="getSuggestions()" id="submitBtn">Get AI-Powered Suggestions</button>
+        <div id="result">
+            <h2>AI Suggestion</h2>
+            <p id="suggestion"></p>
+            <h3>Recommended Activities:</h3>
+            <ul id="activities"></ul>
+        </div>
+        <p class="footer">Remember, if you're in immediate danger, always call your local emergency services.</p>
+    </div>
+
+    <script>
+        function getSuggestions() {
+            const mood = document.getElementById('mood').value;
+            const situation = document.getElementById('situation').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const result = document.getElementById('result');
+            const suggestionEl = document.getElementById('suggestion');
+            const activitiesList = document.getElementById('activities');
+
+            if (!mood || !situation) {
+                alert('Please select a mood and describe your situation.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Getting AI Suggestions...';
+
+            // Simulating AI API call
+            setTimeout(() => {
+                const suggestion = `Based on your ${mood} mood and the situation "${situation}", here's a personalized suggestion: Take a deep breath and remember that you're capable of handling this. Consider reaching out to a trusted friend or family member for support. If you feel unsafe, don't hesitate to contact local authorities. Remember, your well-being is the top priority.`;
+                const activities = [
+                    'Practice mindfulness meditation for 10 minutes',
+                    'Write in a gratitude journal',
+                    'Go for a short walk in nature',
+                    'Listen to uplifting music',
+                    'Call a supportive friend'
+                ];
+
+                suggestionEl.textContent = suggestion;
+                activitiesList.innerHTML = activities.map(activity => `<li>${activity}</li>`).join('');
+                result.style.display = 'block';
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Get AI-Powered Suggestions';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
